@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Análisis exploratorio de los datos | Desarrollo de un modelo de regresión logística para ayudar en el diagnostico de fibrosis hepática</title>
+  <meta name="description" content="En este libro se presenta el desarrollar un modelo de regresión logística que permite estimar la probabilidad de presencia de fibrosis hepática." />
+  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Análisis exploratorio de los datos | Desarrollo de un modelo de regresión logística para ayudar en el diagnostico de fibrosis hepática" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="En este libro se presenta el desarrollar un modelo de regresión logística que permite estimar la probabilidad de presencia de fibrosis hepática." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Análisis exploratorio de los datos | Desarrollo de un modelo de regresión logística para ayudar en el diagnostico de fibrosis hepática" />
+  
+  <meta name="twitter:description" content="En este libro se presenta el desarrollar un modelo de regresión logística que permite estimar la probabilidad de presencia de fibrosis hepática." />
+  
+
+<meta name="author" content="Luis Luna" />
+
+
+<meta name="date" content="2025-09-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="literature.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="01-eda.html"><a href="#introducci%C3%B3n"><i class="fa fa-check"></i><b>1</b> Introducción</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1.1</b> Objetivo</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="01-eda.html"><a href="#an%C3%A1lisis-exploratorio-de-los-datos"><i class="fa fa-check"></i><b>2</b> Análisis exploratorio de los datos</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="01-eda.html"><a href="#descripci%C3%B3n-de-las-variables"><i class="fa fa-check"></i><b>2.1</b> Descripción de las variables</a></li>
+<li class="chapter" data-level="2.2" data-path="01-eda.html"><a href="#an%C3%A1lisis-univariado"><i class="fa fa-check"></i><b>2.2</b> Análisis univariado</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="análisis-exploratorio-de-los-datos.html"><a href="análisis-exploratorio-de-los-datos.html"><i class="fa fa-check"></i><b>2.2.1</b> Variables Continuas</a></li>
+<li class="chapter" data-level="2.2.2" data-path="análisis-exploratorio-de-los-datos.html"><a href="análisis-exploratorio-de-los-datos.html#variables-categoricas"><i class="fa fa-check"></i><b>2.2.2</b> Variables Categoricas</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="01-eda.html"><a href="#an%C3%A1lisis-bivariado"><i class="fa fa-check"></i><b>2.3</b> Análisis bivariado</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="01-eda.html"><a href="#correlaciones-entre-variables-num%C3%A9ricas"><i class="fa fa-check"></i><b>2.3.1</b> Correlaciones entre variables numéricas</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
+<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="methods.html"><a href="methods.html#math-example"><i class="fa fa-check"></i><b>4.1</b> math example</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Desarrollo de un modelo de regresión logística para ayudar en el diagnostico de fibrosis hepática</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="análisis-exploratorio-de-los-datos" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Análisis exploratorio de los datos<a href="#an%C3%A1lisis-exploratorio-de-los-datos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="descripción-de-las-variables" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Descripción de las variables<a href="#descripci%C3%B3n-de-las-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En la tabla <a href="análisis-exploratorio-de-los-datos.html#tab:variables">2.1</a> se puede ver una descripción de las variables utilizadas en este proyecto.</p>
+<table>
+<caption><span id="tab:variables">Table 2.1: </span> Descripción de las variables del estudio</caption>
+<colgroup>
+<col width="18%" />
+<col width="58%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Descripción</th>
+<th>Tipo de variable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Glucemia</td>
+<td>Nivel de glucosa en sangre</td>
+<td>Numérica</td>
+</tr>
+<tr class="even">
+<td>Urea</td>
+<td>Producto de desecho renal</td>
+<td>Numérica</td>
+</tr>
+<tr class="odd">
+<td>Creatinina</td>
+<td>Indicador de función renal</td>
+<td>Numérica</td>
+</tr>
+<tr class="even">
+<td>Colesterol</td>
+<td>Lípido total en sangre</td>
+<td>Numérica</td>
+</tr>
+<tr class="odd">
+<td>Triglicéridos</td>
+<td>Tipo de grasa en sangre</td>
+<td>Numérica</td>
+</tr>
+<tr class="even">
+<td>GOT</td>
+<td>Enzima hepática</td>
+<td>Numérica</td>
+</tr>
+<tr class="odd">
+<td>GPT</td>
+<td>Enzima hepática</td>
+<td>Numérica</td>
+</tr>
+<tr class="even">
+<td>GGT</td>
+<td>Enzima hepática</td>
+<td>Numérica</td>
+</tr>
+<tr class="odd">
+<td>Fosfatasa alcalina</td>
+<td>Enzima hepática y ósea</td>
+<td>Numérica</td>
+</tr>
+<tr class="even">
+<td>Bilirrubina total</td>
+<td>Producto de desecho del hígado</td>
+<td>Numérica</td>
+</tr>
+<tr class="odd">
+<td>Proteínas totales</td>
+<td>Suma de proteínas plasmáticas</td>
+<td>Numérica</td>
+</tr>
+<tr class="even">
+<td>Albúmina</td>
+<td>Principal proteína plasmática</td>
+<td>Numérica</td>
+</tr>
+<tr class="odd">
+<td>Sodio</td>
+<td>Electrolito</td>
+<td>Numérica</td>
+</tr>
+<tr class="even">
+<td>Potasio</td>
+<td>Electrolito</td>
+<td>Numérica</td>
+</tr>
+<tr class="odd">
+<td>Leucocitos</td>
+<td>Glóbulos blancos</td>
+<td>Numérica</td>
+</tr>
+<tr class="even">
+<td>Hematocrito</td>
+<td>Proporción de glóbulos rojos</td>
+<td>Numérica</td>
+</tr>
+<tr class="odd">
+<td>Plaquetas</td>
+<td>Células de coagulación</td>
+<td>Numérica</td>
+</tr>
+<tr class="even">
+<td>Índice de Quick</td>
+<td>Tiempo de coagulación de la sangre usando reacción de Quick</td>
+<td>Numérica</td>
+</tr>
+<tr class="odd">
+<td>Fibrinógeno</td>
+<td>Proteína de la coagulación</td>
+<td>Numérica</td>
+</tr>
+<tr class="even">
+<td>Sexo</td>
+<td>Masculino / Femenino</td>
+<td>Categórica (binaria)</td>
+</tr>
+<tr class="odd">
+<td>Fibrosis (objetivo)</td>
+<td>Presencia / Ausencia (1 / 0)</td>
+<td>Categórica (binaria)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="análisis-univariado" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Análisis univariado<a href="#an%C3%A1lisis-univariado" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="variables-continuas" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Variables Continuas<a href="análisis-exploratorio-de-los-datos.html#variables-continuas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Graficas de caja y bigote:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:boxplots1"></span>
+<img src="bookdown-demo_files/figure-html/boxplots1-1.png" alt="Diagrama de caja y bigote para la glucemia, urea, creatinina, colesterol, triglicéridos y GOT." width="672" />
+<p class="caption">
+Figure 2.1: Diagrama de caja y bigote para la glucemia, urea, creatinina, colesterol, triglicéridos y GOT.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:boxplots2"></span>
+<img src="bookdown-demo_files/figure-html/boxplots2-1.png" alt="Diagrama de caja y bigote para el gpt, ggt, fosfatasa alcalina, bilirrubina total, proteínas totales y albúmina." width="672" />
+<p class="caption">
+Figure 2.2: Diagrama de caja y bigote para el gpt, ggt, fosfatasa alcalina, bilirrubina total, proteínas totales y albúmina.
+</p>
+</div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:boxplots3"></span>
+<img src="bookdown-demo_files/figure-html/boxplots3-1.png" alt="Diagrama de caja y bigote para el sodio, potasio leucocitos, hematocrito, plaquetas, indice de Quick y fibrinógeno." width="672" />
+<p class="caption">
+Figure 2.3: Diagrama de caja y bigote para el sodio, potasio leucocitos, hematocrito, plaquetas, indice de Quick y fibrinógeno.
+</p>
+</div>
+</div>
+<div id="variables-categoricas" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Variables Categoricas<a href="análisis-exploratorio-de-los-datos.html#variables-categoricas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:barplot-sex-fibrosis"></span>
+<img src="bookdown-demo_files/figure-html/barplot-sex-fibrosis-1.png" alt="Diagrama de barras para el sexo y la fibrosis." width="672" />
+<p class="caption">
+Figure 2.4: Diagrama de barras para el sexo y la fibrosis.
+</p>
+</div>
+</div>
+</div>
+<div id="análisis-bivariado" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Análisis bivariado<a href="#an%C3%A1lisis-bivariado" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<table>
+<caption><span id="tab:tabla-resumen">Table 2.2: </span>Tabla de resumen estadístico de las variables numéricas en presencia o ausencia de fibrosis.</caption>
+<colgroup>
+<col width="9%" />
+<col width="9%" />
+<col width="4%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">variable</th>
+<th align="left">fibrosis</th>
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">median</th>
+<th align="right">iqr</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">q1</th>
+<th align="right">q3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">glucemia</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">115.6</td>
+<td align="right">41.2</td>
+<td align="right">102.0</td>
+<td align="right">32.0</td>
+<td align="right">69.0</td>
+<td align="right">290.0</td>
+<td align="right">90.0</td>
+<td align="right">122.0</td>
+</tr>
+<tr class="even">
+<td align="left">glucemia</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">109.6</td>
+<td align="right">40.9</td>
+<td align="right">99.0</td>
+<td align="right">37.0</td>
+<td align="right">14.0</td>
+<td align="right">352.0</td>
+<td align="right">86.0</td>
+<td align="right">123.0</td>
+</tr>
+<tr class="odd">
+<td align="left">urea</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">36.1</td>
+<td align="right">14.3</td>
+<td align="right">33.0</td>
+<td align="right">20.0</td>
+<td align="right">12.0</td>
+<td align="right">84.0</td>
+<td align="right">25.0</td>
+<td align="right">45.0</td>
+</tr>
+<tr class="even">
+<td align="left">urea</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">34.1</td>
+<td align="right">19.1</td>
+<td align="right">28.0</td>
+<td align="right">21.0</td>
+<td align="right">11.0</td>
+<td align="right">174.0</td>
+<td align="right">22.0</td>
+<td align="right">43.0</td>
+</tr>
+<tr class="odd">
+<td align="left">creat</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">1.3</td>
+<td align="right">0.5</td>
+<td align="right">1.2</td>
+<td align="right">0.5</td>
+<td align="right">0.4</td>
+<td align="right">4.3</td>
+<td align="right">1.0</td>
+<td align="right">1.5</td>
+</tr>
+<tr class="even">
+<td align="left">creat</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">1.1</td>
+<td align="right">0.7</td>
+<td align="right">1.0</td>
+<td align="right">0.4</td>
+<td align="right">0.5</td>
+<td align="right">9.4</td>
+<td align="right">0.8</td>
+<td align="right">1.2</td>
+</tr>
+<tr class="odd">
+<td align="left">colester</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">183.1</td>
+<td align="right">38.5</td>
+<td align="right">184.0</td>
+<td align="right">40.0</td>
+<td align="right">20.0</td>
+<td align="right">337.0</td>
+<td align="right">162.0</td>
+<td align="right">202.0</td>
+</tr>
+<tr class="even">
+<td align="left">colester</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">180.5</td>
+<td align="right">42.0</td>
+<td align="right">177.0</td>
+<td align="right">51.0</td>
+<td align="right">82.0</td>
+<td align="right">316.0</td>
+<td align="right">157.0</td>
+<td align="right">208.0</td>
+</tr>
+<tr class="odd">
+<td align="left">trgl</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">160.0</td>
+<td align="right">83.0</td>
+<td align="right">134.0</td>
+<td align="right">93.0</td>
+<td align="right">49.0</td>
+<td align="right">591.0</td>
+<td align="right">106.0</td>
+<td align="right">199.0</td>
+</tr>
+<tr class="even">
+<td align="left">trgl</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">156.8</td>
+<td align="right">80.9</td>
+<td align="right">136.0</td>
+<td align="right">84.0</td>
+<td align="right">7.5</td>
+<td align="right">465.0</td>
+<td align="right">103.0</td>
+<td align="right">187.0</td>
+</tr>
+<tr class="odd">
+<td align="left">got</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">55.1</td>
+<td align="right">45.2</td>
+<td align="right">40.0</td>
+<td align="right">37.0</td>
+<td align="right">13.0</td>
+<td align="right">309.0</td>
+<td align="right">27.0</td>
+<td align="right">64.0</td>
+</tr>
+<tr class="even">
+<td align="left">got</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">114.7</td>
+<td align="right">110.0</td>
+<td align="right">80.0</td>
+<td align="right">97.0</td>
+<td align="right">13.0</td>
+<td align="right">752.0</td>
+<td align="right">48.0</td>
+<td align="right">145.0</td>
+</tr>
+<tr class="odd">
+<td align="left">gpt</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">81.6</td>
+<td align="right">68.2</td>
+<td align="right">60.0</td>
+<td align="right">61.0</td>
+<td align="right">19.0</td>
+<td align="right">350.0</td>
+<td align="right">36.0</td>
+<td align="right">97.0</td>
+</tr>
+<tr class="even">
+<td align="left">gpt</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">147.9</td>
+<td align="right">129.4</td>
+<td align="right">105.0</td>
+<td align="right">110.0</td>
+<td align="right">16.0</td>
+<td align="right">766.0</td>
+<td align="right">65.0</td>
+<td align="right">175.0</td>
+</tr>
+<tr class="odd">
+<td align="left">ggt</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">85.1</td>
+<td align="right">95.7</td>
+<td align="right">57.0</td>
+<td align="right">60.0</td>
+<td align="right">13.0</td>
+<td align="right">696.0</td>
+<td align="right">31.0</td>
+<td align="right">91.0</td>
+</tr>
+<tr class="even">
+<td align="left">ggt</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">141.1</td>
+<td align="right">189.5</td>
+<td align="right">85.0</td>
+<td align="right">124.0</td>
+<td align="right">12.0</td>
+<td align="right">1884.0</td>
+<td align="right">41.0</td>
+<td align="right">165.0</td>
+</tr>
+<tr class="odd">
+<td align="left">fa</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">95.9</td>
+<td align="right">54.4</td>
+<td align="right">83.0</td>
+<td align="right">43.0</td>
+<td align="right">32.0</td>
+<td align="right">492.0</td>
+<td align="right">67.0</td>
+<td align="right">110.0</td>
+</tr>
+<tr class="even">
+<td align="left">fa</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">113.0</td>
+<td align="right">54.8</td>
+<td align="right">101.0</td>
+<td align="right">53.0</td>
+<td align="right">27.0</td>
+<td align="right">414.0</td>
+<td align="right">77.0</td>
+<td align="right">130.0</td>
+</tr>
+<tr class="odd">
+<td align="left">biltotal</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">1.0</td>
+<td align="right">0.5</td>
+<td align="right">0.9</td>
+<td align="right">0.5</td>
+<td align="right">0.3</td>
+<td align="right">3.2</td>
+<td align="right">0.7</td>
+<td align="right">1.2</td>
+</tr>
+<tr class="even">
+<td align="left">biltotal</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">1.2</td>
+<td align="right">1.0</td>
+<td align="right">1.0</td>
+<td align="right">0.7</td>
+<td align="right">0.2</td>
+<td align="right">8.3</td>
+<td align="right">0.7</td>
+<td align="right">1.4</td>
+</tr>
+<tr class="odd">
+<td align="left">prottot</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">7.1</td>
+<td align="right">0.6</td>
+<td align="right">7.1</td>
+<td align="right">0.8</td>
+<td align="right">4.6</td>
+<td align="right">8.6</td>
+<td align="right">6.7</td>
+<td align="right">7.5</td>
+</tr>
+<tr class="even">
+<td align="left">prottot</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">7.2</td>
+<td align="right">0.6</td>
+<td align="right">7.2</td>
+<td align="right">0.7</td>
+<td align="right">5.6</td>
+<td align="right">9.1</td>
+<td align="right">6.8</td>
+<td align="right">7.5</td>
+</tr>
+<tr class="odd">
+<td align="left">alb</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">4.4</td>
+<td align="right">0.5</td>
+<td align="right">4.4</td>
+<td align="right">0.4</td>
+<td align="right">2.6</td>
+<td align="right">7.7</td>
+<td align="right">4.2</td>
+<td align="right">4.6</td>
+</tr>
+<tr class="even">
+<td align="left">alb</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">4.1</td>
+<td align="right">0.4</td>
+<td align="right">4.2</td>
+<td align="right">0.5</td>
+<td align="right">2.9</td>
+<td align="right">5.0</td>
+<td align="right">3.9</td>
+<td align="right">4.4</td>
+</tr>
+<tr class="odd">
+<td align="left">na</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">140.1</td>
+<td align="right">3.0</td>
+<td align="right">140.0</td>
+<td align="right">4.0</td>
+<td align="right">128.0</td>
+<td align="right">150.0</td>
+<td align="right">138.0</td>
+<td align="right">142.0</td>
+</tr>
+<tr class="even">
+<td align="left">na</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">139.5</td>
+<td align="right">2.8</td>
+<td align="right">140.0</td>
+<td align="right">3.0</td>
+<td align="right">128.0</td>
+<td align="right">147.0</td>
+<td align="right">138.0</td>
+<td align="right">141.0</td>
+</tr>
+<tr class="odd">
+<td align="left">k</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">4.6</td>
+<td align="right">0.4</td>
+<td align="right">4.6</td>
+<td align="right">0.5</td>
+<td align="right">3.6</td>
+<td align="right">6.0</td>
+<td align="right">4.3</td>
+<td align="right">4.8</td>
+</tr>
+<tr class="even">
+<td align="left">k</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">4.5</td>
+<td align="right">0.5</td>
+<td align="right">4.5</td>
+<td align="right">0.5</td>
+<td align="right">3.4</td>
+<td align="right">6.0</td>
+<td align="right">4.2</td>
+<td align="right">4.7</td>
+</tr>
+<tr class="odd">
+<td align="left">leucos</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">5793.8</td>
+<td align="right">1952.7</td>
+<td align="right">5650.0</td>
+<td align="right">2570.0</td>
+<td align="right">2440.0</td>
+<td align="right">12640.0</td>
+<td align="right">4430.0</td>
+<td align="right">7000.0</td>
+</tr>
+<tr class="even">
+<td align="left">leucos</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">5399.1</td>
+<td align="right">2038.5</td>
+<td align="right">5110.0</td>
+<td align="right">2710.0</td>
+<td align="right">1700.0</td>
+<td align="right">11950.0</td>
+<td align="right">3900.0</td>
+<td align="right">6610.0</td>
+</tr>
+<tr class="odd">
+<td align="left">hcto</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">41.3</td>
+<td align="right">4.8</td>
+<td align="right">41.0</td>
+<td align="right">7.0</td>
+<td align="right">24.0</td>
+<td align="right">55.0</td>
+<td align="right">38.0</td>
+<td align="right">45.0</td>
+</tr>
+<tr class="even">
+<td align="left">hcto</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">41.2</td>
+<td align="right">4.6</td>
+<td align="right">41.0</td>
+<td align="right">6.0</td>
+<td align="right">30.0</td>
+<td align="right">57.0</td>
+<td align="right">38.0</td>
+<td align="right">44.0</td>
+</tr>
+<tr class="odd">
+<td align="left">plaq</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">143170.2</td>
+<td align="right">43659.1</td>
+<td align="right">140000.0</td>
+<td align="right">56000.0</td>
+<td align="right">10000.0</td>
+<td align="right">261000.0</td>
+<td align="right">112000.0</td>
+<td align="right">168000.0</td>
+</tr>
+<tr class="even">
+<td align="left">plaq</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">139674.0</td>
+<td align="right">49937.3</td>
+<td align="right">138000.0</td>
+<td align="right">68000.0</td>
+<td align="right">14000.0</td>
+<td align="right">297000.0</td>
+<td align="right">103000.0</td>
+<td align="right">171000.0</td>
+</tr>
+<tr class="odd">
+<td align="left">iq</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">98.0</td>
+<td align="right">6.6</td>
+<td align="right">100.0</td>
+<td align="right">0.0</td>
+<td align="right">53.0</td>
+<td align="right">118.0</td>
+<td align="right">100.0</td>
+<td align="right">100.0</td>
+</tr>
+<tr class="even">
+<td align="left">iq</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">94.6</td>
+<td align="right">10.2</td>
+<td align="right">100.0</td>
+<td align="right">6.0</td>
+<td align="right">45.0</td>
+<td align="right">100.0</td>
+<td align="right">94.0</td>
+<td align="right">100.0</td>
+</tr>
+<tr class="odd">
+<td align="left">fibrin</td>
+<td align="left">0</td>
+<td align="right">141</td>
+<td align="right">284.2</td>
+<td align="right">70.6</td>
+<td align="right">276.0</td>
+<td align="right">72.0</td>
+<td align="right">163.0</td>
+<td align="right">610.0</td>
+<td align="right">240.0</td>
+<td align="right">312.0</td>
+</tr>
+<tr class="even">
+<td align="left">fibrin</td>
+<td align="left">1</td>
+<td align="right">181</td>
+<td align="right">269.0</td>
+<td align="right">66.8</td>
+<td align="right">260.0</td>
+<td align="right">92.0</td>
+<td align="right">123.0</td>
+<td align="right">471.0</td>
+<td align="right">224.0</td>
+<td align="right">316.0</td>
+</tr>
+</tbody>
+</table>
+<p>Sexo vs Fibrosis:</p>
+<table>
+<caption><span id="tab:sexo-fibrosis">Table 2.3: </span> Distribución de sexo vs fibrosis</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Total</th>
+<th align="center">0</th>
+<th align="center">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td align="center">322</td>
+<td align="center">141 (43.8%)</td>
+<td align="center">181 (56.2%)</td>
+</tr>
+<tr class="even">
+<td><strong>M</strong></td>
+<td align="center">162 (50.3%)</td>
+<td align="center">54 (38.3%)</td>
+<td align="center">108 (59.7%)</td>
+</tr>
+<tr class="odd">
+<td><strong>F</strong></td>
+<td align="center">160 (49.7%)</td>
+<td align="center">87 (61.7%)</td>
+<td align="center">73 (40.3%)</td>
+</tr>
+</tbody>
+</table>
+<div id="correlaciones-entre-variables-numéricas" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Correlaciones entre variables numéricas<a href="#correlaciones-entre-variables-num%C3%A9ricas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Correlaciones de Pearson entre las variables numéricas estudiadas.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:correlaciones"></span>
+<img src="bookdown-demo_files/figure-html/correlaciones-1.png" alt="Grafica de correlación entre las variables numéricas." width="120%" />
+<p class="caption">
+Figure 2.5: Grafica de correlación entre las variables numéricas.
+</p>
+</div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="literature.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/rstudio/bookdown-demo/edit/master/01-eda.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
