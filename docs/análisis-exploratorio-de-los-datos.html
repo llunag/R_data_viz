@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Análisis exploratorio de los datos | Desarrollo de un modelo de regresión logística para ayudar en el diagnostico de fibrosis hepática</title>
+  <title>Capítulo 2 Análisis exploratorio de los datos | Desarrollo de un modelo de regresión logística para ayudar en el diagnostico de fibrosis hepática</title>
   <meta name="description" content="En este libro se presenta el desarrollar un modelo de regresión logística que permite estimar la probabilidad de presencia de fibrosis hepática." />
   <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Análisis exploratorio de los datos | Desarrollo de un modelo de regresión logística para ayudar en el diagnostico de fibrosis hepática" />
+  <meta property="og:title" content="Capítulo 2 Análisis exploratorio de los datos | Desarrollo de un modelo de regresión logística para ayudar en el diagnostico de fibrosis hepática" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="En este libro se presenta el desarrollar un modelo de regresión logística que permite estimar la probabilidad de presencia de fibrosis hepática." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Análisis exploratorio de los datos | Desarrollo de un modelo de regresión logística para ayudar en el diagnostico de fibrosis hepática" />
+  <meta name="twitter:title" content="Capítulo 2 Análisis exploratorio de los datos | Desarrollo de un modelo de regresión logística para ayudar en el diagnostico de fibrosis hepática" />
   
   <meta name="twitter:description" content="En este libro se presenta el desarrollar un modelo de regresión logística que permite estimar la probabilidad de presencia de fibrosis hepática." />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Luis Luna, Andres Parodi, Issam Cherenek" />
 
 
-<meta name="date" content="2025-09-25" />
+<meta name="date" content="2025-09-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -73,7 +73,7 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Proyecto Data Viz</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="01-eda.html"><a href="#introducci%C3%B3n"><i class="fa fa-check"></i><b>1</b> Introducción</a>
@@ -126,10 +126,10 @@
 
             <section class="normal" id="section-">
 <div id="análisis-exploratorio-de-los-datos" class="section level1 hasAnchor" number="2">
-<h1><span class="header-section-number">Chapter 2</span> Análisis exploratorio de los datos<a href="#an%C3%A1lisis-exploratorio-de-los-datos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<h1><span class="header-section-number">Capítulo 2</span> Análisis exploratorio de los datos<a href="#an%C3%A1lisis-exploratorio-de-los-datos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="descripción-de-las-variables" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Descripción de las variables<a href="#descripci%C3%B3n-de-las-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En la tabla <a href="análisis-exploratorio-de-los-datos.html#tab:variables">2.1</a> se puede ver una descripción de las variables utilizadas en este proyecto.</p>
+<p>En la tabla <a href="análisis-exploratorio-de-los-datos.html#tab:variables">2.1</a> se puede ver una descripción de las variables utilizadas en este proyecto. Estas variables corresponden a variables clínicas cuya obtención es rutinaria o poco invasiva, solo necesitando extracción de sangre, las cuales podrían ser útiles a la hora de determinar la presencia o ausencia de fibrosis hepática.</p>
 <table>
 <caption><span id="tab:variables">Table 2.1: </span> Descripción de las variables del estudio</caption>
 <colgroup>
@@ -258,18 +258,21 @@
 <div id="variables-continuas" class="section level3 hasAnchor" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> Variables Continuas<a href="análisis-exploratorio-de-los-datos.html#variables-continuas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Graficas de caja y bigote:</p>
+<p>En la figura <a href="análisis-exploratorio-de-los-datos.html#fig:boxplots1">2.1</a> se observa el diagrama de barra y bigote de la glucemia la cual tiene una mediana de 101 y la cual presenta valores atípicos hacia arriba, lo que indica que tienen una distribución sesgada a la derecha. En el caso de la urea su mediana es 30.5 y se observan valores extremos que superan el valor de 70. Para la creatinina su mediana es de 1.1 y el 75% de sus valores están por debajo de 1.39, también se observan valores atípicos siendo el valor máximo 9.4. El colesterol presenta una mediana de 180, se observa valores atípicos tanto por encima como por debajo de la caja central. Los triglicéridos tienen una mediana de 135.5 y el 75% de sus observaciones esta por debajo de 188.5, aunque presenta valores atípicos hacia arriba con un valor máximo de 591. El GOT presenta una mediana de 81 y también presenta valores atípicos por encima de 200.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:boxplots1"></span>
 <img src="bookdown-demo_files/figure-html/boxplots1-1.png" alt="Diagrama de caja y bigote para la glucemia, urea, creatinina, colesterol, triglicéridos y GOT." width="672" />
 <p class="caption">
 Figure 2.1: Diagrama de caja y bigote para la glucemia, urea, creatinina, colesterol, triglicéridos y GOT.
 </p>
 </div>
+<p>En la figura <a href="análisis-exploratorio-de-los-datos.html#fig:boxplots2">2.2</a> podemos ver que el diagrama de barra y bigote del GPT presenta valores atípicos por arriba, el GPT tienen una mediana de 81 y su máximo valor es de 766. El GGT tiene el 75% de sus valores por debajo de 135.2 y su máximo valor es de 1884. La fosfatasa alcalina presenta también valores atípicos por arriba y el 75% de sus observaciones están por debajo de 122. La bilirrubina total también presenta valores atípicos por arriba, con mediana de 1. Las proteínas totales presentan valores atípicos por arriba y debajo de la caja central, y tiene una mediana de 7.1. La albúmina tiene una mediana de 4.3 y su valor máximo es de 7.7.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:boxplots2"></span>
 <img src="bookdown-demo_files/figure-html/boxplots2-1.png" alt="Diagrama de caja y bigote para el gpt, ggt, fosfatasa alcalina, bilirrubina total, proteínas totales y albúmina." width="672" />
 <p class="caption">
 Figure 2.2: Diagrama de caja y bigote para el gpt, ggt, fosfatasa alcalina, bilirrubina total, proteínas totales y albúmina.
 </p>
 </div>
+<p>En la figura <a href="análisis-exploratorio-de-los-datos.html#fig:boxplots3">2.3</a> podemos ver que el sodio, hematocrito y plaquetas presentan valores atípicos por encima y por debajo de la caja principal. Las variables potasio, leucocitos, fibrinógeno presenta solo valores atípicos por arriba de la caja principal. Por último, el índice de Quick presenta una mediana de 100 y el 75% de los valores se encuentra por encima de 96, y su valor mínimo es 45.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:boxplots3"></span>
 <img src="bookdown-demo_files/figure-html/boxplots3-1.png" alt="Diagrama de caja y bigote para el sodio, potasio leucocitos, hematocrito, plaquetas, indice de Quick y fibrinógeno." width="672" />
 <p class="caption">
@@ -279,6 +282,7 @@ Figure 2.3: Diagrama de caja y bigote para el sodio, potasio leucocitos, hematoc
 </div>
 <div id="variables-categoricas" class="section level3 hasAnchor" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> Variables Categoricas<a href="análisis-exploratorio-de-los-datos.html#variables-categoricas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Podemos observar en la figura <a href="análisis-exploratorio-de-los-datos.html#fig:barplot-sex-fibrosis">2.4</a> que el sexo masculino corresponde al 50.3% (162) de las observaciones y el femenino corresponde al 49.7% (160). Con respecto a la fibrosis el 43.8% (141) de las observaciones no presenta fibrosis y el 56.2% (181) si la presenta, por lo que podemos observar que el conjunto de datos esta balanceado tanto para el sexo como la fibrosis.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:barplot-sex-fibrosis"></span>
 <img src="bookdown-demo_files/figure-html/barplot-sex-fibrosis-1.png" alt="Diagrama de barras para el sexo y la fibrosis." width="672" />
 <p class="caption">
@@ -289,6 +293,7 @@ Figure 2.4: Diagrama de barras para el sexo y la fibrosis.
 </div>
 <div id="análisis-bivariado" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Análisis bivariado<a href="#an%C3%A1lisis-bivariado" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Podemos observar en la tabla <a href="análisis-exploratorio-de-los-datos.html#tab:tabla-resumen">2.2</a> que para las variables de GOT, GPT, GGT y Fosfatasa alcalina (fa) presentan medianas relativamente diferentes cuando hay ausencia y cuando hay presencia de fibrosis, aunque debemos realizar una prueba de diferencia de medianas para determinar si estas diferencias son realmente significativas.</p>
 <table>
 <caption><span id="tab:tabla-resumen">Table 2.2: </span>Tabla de resumen estadístico de las variables numéricas en presencia o ausencia de fibrosis.</caption>
 <colgroup>
@@ -816,7 +821,7 @@ Figure 2.4: Diagrama de barras para el sexo y la fibrosis.
 </tr>
 </tbody>
 </table>
-<p>Sexo vs Fibrosis:</p>
+<p>En la tabla <a href="análisis-exploratorio-de-los-datos.html#tab:sexo-fibrosis">2.3</a> podemos observar que cuando hay ausencia de fibrosis el sexo femenino tiene mayor proporción con 61.7% (87) y el masculino con 38.3% (54), en cambio cuando hay presencia de fibrosis la proporción de sexo masculino es mayor con 59.7% (108) y la femenina es menor con 40.3% (73).</p>
 <table>
 <caption><span id="tab:sexo-fibrosis">Table 2.3: </span> Distribución de sexo vs fibrosis</caption>
 <thead>
@@ -850,7 +855,7 @@ Figure 2.4: Diagrama de barras para el sexo y la fibrosis.
 </table>
 <div id="correlaciones-entre-variables-numéricas" class="section level3 hasAnchor" number="2.3.1">
 <h3><span class="header-section-number">2.3.1</span> Correlaciones entre variables numéricas<a href="#correlaciones-entre-variables-num%C3%A9ricas" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Correlaciones de Pearson entre las variables numéricas estudiadas.</p>
+<p>En la figura <a href="análisis-exploratorio-de-los-datos.html#fig:correlaciones">2.5</a> se puede observar que GOT y GGT tienen una alta correlación (0.8), seguidas por correlaciones de valor 0.53 entre Urea y Creatinina, GGT y Fosfatasa alcalina, y Leucocitos y Hematocritos. Las variables GGT y Bilirrubina total tienen una correlación de 0.43 mientras que Leucocitos y Fibrinógeno tienen una correlación de 0.40. Todas las correlaciones mencionadas anteriormente son positivas, las demás correlaciones tienen un valor absoluto por debajo de 0.4.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:correlaciones"></span>
 <img src="bookdown-demo_files/figure-html/correlaciones-1.png" alt="Grafica de correlación entre las variables numéricas." width="120%" />
 <p class="caption">
