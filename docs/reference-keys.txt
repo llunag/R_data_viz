@@ -15,11 +15,4 @@ fig:barplot-sex-fibrosis
 tab:sexo-fibrosis
 correlaciones-entre-variables-numéricas
 fig:correlaciones
-literature
-methods
-math-example
-applications
-example-one
-example-two
-final-words
 
