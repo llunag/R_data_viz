@@ -16,3 +16,14 @@ tab:sexo-fibrosis
 correlaciones-entre-variables-numéricas
 fig:correlaciones
 
+fig:varnum-fibrosis
+literature
+modelo
+modelo-1
+tab:modelo
+modelo-de-regresión-logística
+tab:modelo-metricas
+fig:confusion-auc-plot-1
+fig:confusion-auc-plot-2
+fig:auc-plot
+fig:confusion-plot
